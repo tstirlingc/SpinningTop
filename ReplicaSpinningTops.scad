@@ -22,9 +22,9 @@ quarter_thickness = 1.69+adjust;
 
 coin_exposure = 8.4;
 
-top_diameter = 46.76-5; // 46.76
-top_height = 45.80-5.75/2; // 45.80
-handle_diameter = 5.75; // 5.75
+top_diameter = 60; // 46.76
+top_height = 40; // 45.80
+handle_diameter = 6.5; // 5.75
 top_thickness = 5; //4.3
 
 bearing_diameter = 9.5+adjust;
