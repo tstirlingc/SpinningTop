@@ -7,8 +7,9 @@
 difference()
 {
     full_top();
-    coin_text();
-    logo();
+    //coin_text();
+    //text_logo();
+    mug_logo();
 }
 
 // for 1mm nozzle and 0.5mm layers (0.3 first) adjust to make holes a bit bigger:
@@ -38,7 +39,9 @@ top_thickness = 6; //4.3
 bearing_diameter = 9.5+adjust;
 bearing_exposure = 3.5; // 3.5
 
-coin_text_offset_from_slot = 0.5;
+coin_text_offset_from_slot = 0.4;
+text_thickness = 0.3;
+logo_thickness = 0.3;
 
 masterFN = 100;
 
@@ -121,39 +124,76 @@ module quarter()
 
 module coin_text()
 {
-    rotate([0,180,-90+0])
-        translate([0,penny_diameter/2+coin_text_offset_from_slot,0]) 
-            text("P",size=6,halign="center",valign="bottom");
-    rotate([0,180,-90+45])
-        translate([0,nickel_diameter/2+coin_text_offset_from_slot,0]) 
-            text("N",size=6,halign="center",valign="bottom");
-    rotate([0,180,-90+90])
-        translate([0,dime_diameter/2+coin_text_offset_from_slot,0]) 
-            text("D",size=6,halign="center",valign="bottom");
-    rotate([0,180,-90+135])
-        translate([0,quarter_diameter/2+coin_text_offset_from_slot,0]) 
-            text("Q",size=6,halign="center",valign="bottom");
+    linear_extrude(height=text_thickness)
+    {
+        rotate([0,180,-90+0])
+            translate([0,penny_diameter/2+coin_text_offset_from_slot,0]) 
+                text("P",size=6,halign="center",valign="bottom");
+        rotate([0,180,-90+45])
+            translate([0,nickel_diameter/2+coin_text_offset_from_slot,0]) 
+                text("N",size=6,halign="center",valign="bottom");
+        rotate([0,180,-90+90])
+            translate([0,dime_diameter/2+coin_text_offset_from_slot,0]) 
+                text("D",size=6,halign="center",valign="bottom");
+        rotate([0,180,-90+135])
+            translate([0,quarter_diameter/2+coin_text_offset_from_slot,0]) 
+                text("Q",size=6,halign="center",valign="bottom");
+    }
 }
 module rotated_translated_character(char,radius,angle)
 {
     rotate([0,180,angle]) translate([0,radius,0]) text(char,size=6,halign="center");
 
 }
-module logo()
+module text_logo()
 {
-    radius=12;
-    start_angle = 120;
-    offsets = [0,20,35,45,60,77];
-    rotated_translated_character("C",radius,start_angle+offsets[0]);
-    rotated_translated_character("o",radius,start_angle+offsets[1]);
-    rotated_translated_character("f",radius,start_angle+offsets[2]);
-    rotated_translated_character("f",radius,start_angle+offsets[3]);
-    rotated_translated_character("e",radius,start_angle+offsets[4]);
-    rotated_translated_character("y",radius,start_angle+offsets[5]);
-    //rotate([0,180,offset]) translate([0,radius,0]) text("C",size=6,halign="center");
-//    rotate([0,180,offset]) translate([0,radius,0]) text("o",size=6,halign="center");
-//    rotate([0,180,offset]) translate([0,radius,0]) text("f",size=6,halign="center");
-//    rotate([0,180,offset]) translate([0,radius,0]) text("f",size=6,halign="center");
-//    rotate([0,180,offset]) translate([0,radius,0]) text("e",size=6,halign="center");
-//    rotate([0,180,offset]) translate([0,radius,0]) text("y",size=6,halign="center");
+    linear_extrude(height=text_thickness) 
+    {
+        radius=12;
+        start_angle = 120;
+        offsets = [0,20,35,45,60,77];
+        rotated_translated_character("C",radius,start_angle+offsets[0]);
+        rotated_translated_character("o",radius,start_angle+offsets[1]);
+        rotated_translated_character("f",radius,start_angle+offsets[2]);
+        rotated_translated_character("f",radius,start_angle+offsets[3]);
+        rotated_translated_character("e",radius,start_angle+offsets[4]);
+        rotated_translated_character("y",radius,start_angle+offsets[5]);
+    }
 }
+
+module toroid(d1,d2)
+{
+    difference()
+    {
+        circle(d=d1,$fn=masterFN);
+        circle(d=d2,$fn=masterFN);
+    }
+}
+module right_half_circle(d1,d2)
+{
+    difference()
+    {
+        toroid(d1,d2);
+        translate([-d2/2,-d2/2]) 
+            square([d2/2,d1]);
+    }
+}
+
+module mug_logo()
+{
+    w = 4;
+    h = 5;
+    rotate([0,0,105])
+    translate([0,17,0])
+    rotate([0,180,100])
+    linear_extrude(height=logo_thickness)
+    {
+        square([w,h]);
+        translate([w,h/2])
+            right_half_circle(2.5,1.5);
+        translate([w*0.3,h*1.1])
+            rotate([0,180,-60])
+                text("S",size=w/2,halign="center",$fn=masterFN);
+    }
+}
+//mug_logo();
