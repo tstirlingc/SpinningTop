@@ -186,9 +186,15 @@ module mug_logo()
     rotate([0,0,105])
     translate([0,17,0])
     rotate([0,180,100])
+    translate([0,0,-logo_thickness])
     linear_extrude(height=logo_thickness)
     {
-        square([w,h]);
+        difference() 
+        {
+            square([w,h]);
+            translate([0.5,0.5])
+                square([w-1,h-1]);
+        }
         translate([w,h/2])
             right_half_circle(2.5,1.5);
         translate([w*0.3,h*1.1])
