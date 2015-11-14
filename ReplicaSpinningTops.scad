@@ -7,27 +7,30 @@
 difference()
 {
     full_top();
+    //simple_cube();
     //coin_text();
     //text_logo();
     mug_logo();
 }
 
 // for 1mm nozzle and 0.5mm layers (0.3 first) adjust to make holes a bit bigger:
-adjust = 0.6;
+diameter_adjust = 0.6;
+thickness_adjust = 0.5;
+bearing_diameter_adjust = 0.5;
+first_layer_height = 0.3;
+second_layer_height = 0.2;
 
-// Add text to bottom of top with "P", "N", "D", "Q" for coin slots
-// Add text to bottom of top for attribution:  "Coffey"
-penny_diameter = 19.03+adjust;
-penny_thickness = 1.35+adjust;
+penny_diameter = 19.03+diameter_adjust;
+penny_thickness = 1.35+thickness_adjust;
 
-nickel_diameter = 21.21+adjust;
-nickel_thickness = 1.90+adjust;
+nickel_diameter = 21.21+diameter_adjust;
+nickel_thickness = 1.90+thickness_adjust;
 
-dime_diameter = 17.88+adjust;
-dime_thickness = 1.31+adjust;
+dime_diameter = 17.88+diameter_adjust;
+dime_thickness = 1.31+thickness_adjust;
 
-quarter_diameter = 24.05+adjust;
-quarter_thickness = 1.69+adjust;
+quarter_diameter = 24.05+diameter_adjust;
+quarter_thickness = 1.69+thickness_adjust;
 
 coin_depth_percentage = 10/100;
 
@@ -36,12 +39,12 @@ top_height = 40; // 45.80
 handle_diameter = 6; // 5.75
 top_thickness = 6; //4.3
 
-bearing_diameter = 9.5+adjust;
+bearing_diameter = 9.5+bearing_diameter_adjust;
 bearing_exposure = 3.5; // 3.5
 
-coin_text_offset_from_slot = 0.4;
-text_thickness = 0.3;
-logo_thickness = 0.3;
+//coin_text_offset_from_slot = 0.4;
+//text_thickness = logo_thickness;
+logo_thickness = first_layer_height+2*second_layer_height;
 
 masterFN = 100;
 
@@ -182,25 +185,31 @@ module right_half_circle(d1,d2)
 
 module mug_logo()
 {
-    w = 6;
-    h = 7;
-    rotate([0,0,100])
-    translate([0,18,0])
-    rotate([0,180,100])
-    translate([0,0,-logo_thickness])
+    w = 5;
+    h = 8;
+    rotate([0,0,180])
+    translate([0,13,0])
+    rotate([0,180,270])
+    translate([-w/2,-h/2,-logo_thickness])
     linear_extrude(height=logo_thickness)
     {
         difference() 
         {
             square([w,h]);
-            translate([0.5,0.5]) 
-                square([w-1,h-1]); 
+            translate([1,1]) 
+                square([w-2,h-2]); 
         }
         translate([w,h/2])
-            right_half_circle(h-1.5,h-2.5);
-        translate([w*0.3,h*1.1])
-            rotate([0,180,-60])
+            right_half_circle(h-1.5,h-3.5);
+        translate([w*0.4,h*1.2])
+            rotate([0,180,-20])
+                offset(r=0.2)
+                scale([1.5,2.5,1])
                 text("S",size=w/2,halign="center",$fn=masterFN);
     }
 }
-//mug_logo();
+module simple_cube()
+{
+   translate([-top_diameter/2,-top_diameter/2,0])
+        cube([top_diameter,top_diameter,top_thickness]);
+}
