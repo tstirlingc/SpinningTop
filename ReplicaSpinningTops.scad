@@ -15,8 +15,8 @@ difference()
 
 // for 1mm nozzle and 0.5mm layers (0.3 first) adjust to make holes a bit bigger:
 diameter_adjust = 0.6;
-thickness_adjust = 0.5;
-bearing_diameter_adjust = 0.5;
+thickness_adjust = 0.4;
+bearing_diameter_adjust = 0.3;
 first_layer_height = 0.3;
 second_layer_height = 0.2;
 
@@ -32,7 +32,7 @@ dime_thickness = 1.31+thickness_adjust;
 quarter_diameter = 24.05+diameter_adjust;
 quarter_thickness = 1.69+thickness_adjust;
 
-coin_depth_percentage = 10/100;
+coin_depth_percentage = 0.1;
 
 top_diameter = 40; // 46.76
 top_height = 40; // 45.80
@@ -40,7 +40,7 @@ handle_diameter = 6; // 5.75
 top_thickness = 6; //4.3
 
 bearing_diameter = 9.5+bearing_diameter_adjust;
-bearing_exposure = 3.5; // 3.5
+bearing_exposure = 4.0; // 3.5
 
 //coin_text_offset_from_slot = 0.4;
 //text_thickness = logo_thickness;
